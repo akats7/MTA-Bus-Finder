@@ -12,12 +12,17 @@ let choices = document.getElementById("choices");
 let previousstate = document.getElementById("btn-br");
 let reset = document.getElementById("btn-tr");
 let VTList = document.getElementById("my-list");
+let btnLeft = document.getElementById("btnLeft");
+let btnRight = document.getElementById("btnRight");
+let displayDestBlock = document.getElementById("textblock");
 let displayRoute = true 
 let state = '';
 
 VTList.style.display="none";
 myPopup.style.display="none";
 list.style.display="none";
+//displayDestBlock.style.display="none";
+
 
 
 function directionbuttons(arr){
@@ -159,14 +164,18 @@ messaging.peerSocket.onmessage = evt => {
     VTList.style.display="inline";
     mylist("FindStops",evt.data.arr);
     //directionbuttons(evt.data.arr);
-    
   }
   else if(str==="selectedstops"){
     choices.style.display="inline";
-      VTList.style.display="inline";
+    VTList.style.display="inline";
     let arr = evt.data.arr;
     console.log("Selected Stops");  
-    mylist("Stop",arr);
+    mylist("SelectedStop",arr);
+  }
+  else if(str==="StopDestination"){
+    btnLeft.style.display = "inline";
+    btnRight.style.display = "inline";
+    DisplayDestination(arr);
   }
   else if(str==="times"){
     console.log("times sent over");
@@ -174,16 +183,23 @@ messaging.peerSocket.onmessage = evt => {
   }
 };
 
+function DisplayDestination(dest){
+  btnLeft.style.display = "inline";
+  btnRight.style.display = "inline";
+  displayDestBlock.style.display="inline"
+  btnRight.text = "Confirm";
+  btnLeft.text = "Return";
+  displayDestBlock.text=dest;
+}
+
 let showtimes = (arr) => {
   console.log("called");
- 
-      for(let time of arr){
-        var ETA = time.MonitoredVehicleJourney.MonitoredCall;
-        console.log(ETA);
-        ETA = ETA.ExpectedArrivalTime;
-        if(ETA){
-          console.log(ETA);
-        }
+  const standardTimes = [];
+      for(let UTCtime of arr){
+        let time = new Date(UTCtime)
+        let min = time.getUTCMinutes();
+        let hr = time.getUTCHours()-5;
+        console.log(`${hr===0 ? 12 : hr > 12 ? hr-12 : hr}:${min} ${hr<12 ? 'AM' : 'PM'}`);
       }     
      
 }

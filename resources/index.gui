@@ -1,95 +1,82 @@
 <svg>
-  
-  
-  <rect id="background" />
-      
-      <svg id="firstbutton"> 
-         <circle fill="white" id="mybutton" />
-         <svg id="mybuttontext">
-         <text id="lineone">Find Bus</text>
-         <text id="linetwo">Near Me</text>
-        </svg>
-      </svg>
-        
-      <svg id="list" > 
-          <svg id="list1">
-          <rect width="40%" height="20%"/>
-          </svg>
-
-          <svg id="list2">
-            <rect width="40%" height="20%"/>
-          </svg>
-
-          <svg id="list3">
-            <rect width="40%" height="20%"/>
-          </svg>
-
-          <svg id="list4">
-            <rect width="40%" height="20%"/>
-          </svg>
-
-          <svg id="list5">
-            <rect width="40%" height="20%"/>
-          </svg>
-      </svg>
-  
-    <svg id="choices">
-      
-      <use id="my-list" href="#tile-list">
-    <var id="virtual" value="1" />
-    <var id="separator-height-bottom" value="2" />
-
-    <use id="my-pool" href="#tile-list-pool">
-      <use id="my-pool[0]" href="#my-tile-item" class="tile-list-item" />
-      <use id="my-pool[1]" href="#my-tile-item" class="tile-list-item" />
-      <use id="my-pool[2]" href="#my-tile-item" class="tile-list-item" />
-      <use id="my-pool[3]" href="#my-tile-item" class="tile-list-item" />
-      <use id="my-pool[4]" href="#my-tile-item" class="tile-list-item" />
-      <use id="my-pool[5]" href="#my-tile-item" class="tile-list-item" />
-      <use id="my-pool[6]" href="#my-tile-item" class="tile-list-item" />
-      <use id="my-pool[7]" href="#my-tile-item" class="tile-list-item" />
-      <use id="my-pool[8]" href="#my-tile-item" class="tile-list-item" />
-      <use id="my-pool[9]" href="#my-tile-item" class="tile-list-item" />
-    </use>
-      </use> 
-  </svg>
-  <svg id="my-popup" display="none">
-
-  <!-- Black background -->
-  <rect class="full-size" fill="#00FFFF" />
-
-  <!-- Title and text -->
-  <use href="#mixed-text-center-mid" class="dialog-mixed-text" fill="fb-white">
-    <set href="#top-padding" attributeName="display" to="none" />
-    <set href="#header/text" attributeName="text-buffer" to="Direction Selection" />
-    <set href="#header/text" attributeName="fill" to="fb-magenta"/>
-    <set href="#copy/text" attributeName="text-buffer" to="Please select the direction you are traveling." />
-    <set href="#bottom-padding" attributeName="display" to="none" />
-  </use>
-
-  <!-- Left button -->
-  <use id="btnLeft" class="dialog-half-button-left" href="#square-button-neutral">
-    <set id = "btnLeftText" href="#text" attributeName="text-buffer" to="Later" />
-    <set href="#text" attributeName="text-anchor" to="middle" />
-  </use>
-
-  <!-- Right button -->
-  <use id="btnRight" class="dialog-half-button-right" href="#square-button-negative">
-    <set id = "btnRighttext" href="#text" attributeName="text-buffer" to="Start" />
-    <set href="#text" attributeName="text-anchor" to="middle" />
-  </use>
-</svg>
-  
-  <use id="btn-br" href="#combo-button-lower-right" fill="fb-peach">
-    <set href="combo-button-icon" attributeName="href" to="play.png"/>
-    <set href="combo-button-icon-press" attributeName="href" to="play_press.png"/>
-    <set href="combo-button-stroke" attributeName="display" to="inline"/>
-  </use>
- 
-  <use id="btn-tr" href="#combo-button-upper-right" fill="fb-red">
-    <set href="combo-button-icon" attributeName="href" to="list.png"/>
-    <set href="combo-button-icon-press" attributeName="href" to="list_press.png"/>
-    <set href="combo-button-stroke" attributeName="display" to="inline"/>
-  </use>
-    
+	<rect id="background" />
+	<svg id="firstbutton">
+		<circle fill="white" id="mybutton" />
+		<svg id="mybuttontext">
+			<text id="lineone">
+				Find Bus
+			</text>
+			<text id="linetwo">
+				Near Me
+			</text>
+		</svg>
+	</svg>
+	<rect id="textblock" fill="white" width="100%" height="50%" />
+	<svg id="list">
+		<svg id="list1">
+			<rect width="40%" height="20%" />
+		</svg>
+		<svg id="list2">
+			<rect width="40%" height="20%" />
+		</svg>
+		<svg id="list3">
+			<rect width="40%" height="20%" />
+		</svg>
+		<svg id="list4">
+			<rect width="40%" height="20%" />
+		</svg>
+		<svg id="list5">
+			<rect width="40%" height="20%" />
+		</svg>
+	</svg>
+	<svg id="choices">
+		<use id="my-list" href="#tile-list">
+			<var id="virtual" value="1" />
+			<var id="separator-height-bottom" value="2" />
+			<use id="my-pool" href="#tile-list-pool">
+				<use id="my-pool[0]" href="#my-tile-item" class="tile-list-item" />
+				<use id="my-pool[1]" href="#my-tile-item" class="tile-list-item" />
+				<use id="my-pool[2]" href="#my-tile-item" class="tile-list-item" />
+				<use id="my-pool[3]" href="#my-tile-item" class="tile-list-item" />
+				<use id="my-pool[4]" href="#my-tile-item" class="tile-list-item" />
+				<use id="my-pool[5]" href="#my-tile-item" class="tile-list-item" />
+				<use id="my-pool[6]" href="#my-tile-item" class="tile-list-item" />
+				<use id="my-pool[7]" href="#my-tile-item" class="tile-list-item" />
+				<use id="my-pool[8]" href="#my-tile-item" class="tile-list-item" />
+				<use id="my-pool[9]" href="#my-tile-item" class="tile-list-item" />
+			</use>
+		</use>
+	</svg>
+	<svg id="my-popup" display="none">
+		<!-- Black background -->
+		<rect class="full-size" fill="#00FFFF" />
+		<!-- Title and text -->
+		<use href="#mixed-text-center-mid" class="dialog-mixed-text" fill="fb-white">
+			<set href="#top-padding" attributeName="display" to="none" />
+			<set href="#header/text" attributeName="text-buffer" to="Direction Selection" />
+			<set href="#header/text" attributeName="fill" to="fb-magenta" />
+			<set href="#copy/text" attributeName="text-buffer" to="Please select the direction you are traveling." />
+			<set href="#bottom-padding" attributeName="display" to="none" />
+		</use>
+		<!-- Left button -->
+		<use id="btnLeft" class="dialog-half-button-left" href="#square-button-neutral">
+			<set id="btnLeftText" href="#text" attributeName="text-buffer" to="Later" />
+			<set href="#text" attributeName="text-anchor" to="middle" />
+		</use>
+		<!-- Right button -->
+		<use id="btnRight" class="dialog-half-button-right" href="#square-button-negative">
+			<set id="btnRighttext" href="#text" attributeName="text-buffer" to="Start" />
+			<set href="#text" attributeName="text-anchor" to="middle" />
+		</use>
+	</svg>
+	<use id="btn-br" href="#combo-button-lower-right" fill="fb-peach">
+		<set href="combo-button-icon" attributeName="href" to="play.png" />
+		<set href="combo-button-icon-press" attributeName="href" to="play_press.png" />
+		<set href="combo-button-stroke" attributeName="display" to="inline" />
+	</use>
+	<use id="btn-tr" href="#combo-button-upper-right" fill="fb-red">
+		<set href="combo-button-icon" attributeName="href" to="list.png" />
+		<set href="combo-button-icon-press" attributeName="href" to="list_press.png" />
+		<set href="combo-button-stroke" attributeName="display" to="inline" />
+	</use>
 </svg>

@@ -9,6 +9,7 @@ let SelectedBus = '';
 let state = 0;
 let prevState = [init,BusStopssend,DetermineDirsend,FindStopssend,BusTimessend];
 let prevStateArgs = [''];
+let SelectedStop = '';
 
 // function initsend (){
 //   state=0;
@@ -37,13 +38,17 @@ function FindStopssend (arr) {
             });
 }
 
+function displayDestsend(arr){
+  state = 4;
+  prevStateArgs[state]=[arr];
+  sendVal({command:"StopDestination",arr: arr});
+}
+
 function BusTimessend (arr) {
-  state=4;
+  state=5;
   prevStateArgs[state]=[arr];
   sendVal({command:"times", arr: arr});
 }
-
-
 
 
 // Message socket opens
@@ -116,7 +121,10 @@ messaging.peerSocket.onmessage = (evt) => {
     let Busfullname = LinetoFull.get(SelectedBus); 
     state=4; //state 4 
     prevStateArgs.push([code,Busfullname]);
-    BusTimes(code,Busfullname);
+    console.log("fetchTimes is called");
+    selectedStop = fetchTimes(code,Busfullname);
+    displayDest(selectedStop);
+
   }
 
 };
@@ -144,53 +152,62 @@ settingsStorage.onchange = evt => {
 };
 
 
-function BusTimes(Stopcode,BusLine){
+function fetchTimes(Stopcode,BusLine){
     state=4; //state 4 
     prevStateArgs[state]=[arguments]
-  var params = {
-        key: "?key=c1c48a75-1692-4672-baec-5ae98bc790ec",
-        version: "&version=2",
-        MonitoringRef: `&MonitoringRef=${Stopcode}`,
-        OperatorRef:"&OperatorRef=MTA",
-        StopMonitoringDetailLevel:"&StopMonitoringDetailLevel=minimum",
-        LineRef:`&LineRef=${BusLine}`
-    };
+    var params = {
+          key: "?key=c1c48a75-1692-4672-baec-5ae98bc790ec",
+          version: "&version=2",
+          MonitoringRef: `&MonitoringRef=${Stopcode}`,
+          OperatorRef:"&OperatorRef=MTA",
+          StopMonitoringDetailLevel:"&StopMonitoringDetailLevel=minimum",
+          LineRef:`&LineRef=${BusLine}`
+      };
 
-const request = `https://bustime.mta.info/api/siri/stop-monitoring.json`+ params.key + params.version
-+ params.MonitoringRef + params.OperatorRef + params.StopMonitoringDetailLevel+params.LineRef;
+    const request = `https://bustime.mta.info/api/siri/stop-monitoring.json`+ params.key + params.version
+    + params.MonitoringRef + params.OperatorRef + params.StopMonitoringDetailLevel+params.LineRef;
 
-  //console.log(request);
-  fetch(request)
-  .then(response => {
+      //console.log(request);
+      fetch(request)
+      .then(response => {
+      
+          return response.json();
+
+      })
+      .catch(function(error){
+        console.log(error);
+    })
+
+function displayDest(json){
   
-      return response.json();
+  displayDestsend(json.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit[0].MonitoredVehicleJourney.DestinationName);
 
-  })
-  .then(json => {
-      //let = null;
-      //console.log(json);
-      const times = json.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit;
-      
-      
-      for(let time of times){
-        var ETA=time.MonitoredVehicleJourney.MonitoredCall;
-        //console.log(time.MonitoredVehicleJourney.MonitoredCall);
-        ETA= ETA.ExpectedArrivalTime;
-        if(ETA){
-        //console.log(ETA);
-      }
-      }
-    
-    //sendVal({command:"times", arr: times});
-    prevStateArgs[state]=[times]
-    BusTimessend(times);
-      
-  })
-  .catch(function(error){
-      //console.log(error);
-  })
+}
 
-  }
+      // .then(json => {
+      //     //let = null;
+      //     //console.log(json);
+      //     const times = json.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit;
+          
+          
+      //     for(let time of times){
+      //       var ETA=time.MonitoredVehicleJourney.MonitoredCall;
+      //       //console.log(time.MonitoredVehicleJourney.MonitoredCall);
+      //       ETA= ETA.ExpectedArrivalTime;
+      //       if(ETA){
+      //         //console.log(ETA);
+      //     }}
+          
+      //     //sendVal({command:"times", arr: times});
+      //     prevStateArgs[state]=[times]
+      //     BusTimessend(times);
+          
+      // })
+      // .catch(function(error){
+      //     console.log(error);
+      // })
+
+      }
 
 function DetermineDir(Bus){
   //let Directions = {};
