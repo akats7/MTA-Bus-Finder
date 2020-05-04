@@ -7,7 +7,7 @@ let LinetoFull = new Map();
 let shortDirectionstoFull = new Map();
 let SelectedBus = '';
 let state = 0;
-let prevState = [init,BusStopssend,DetermineDirsend,FindStopssend,BusTimessend];
+let prevState = [init, BusStopssend, DetermineDirsend, FindStopssend, BusTimessend];
 let prevStateArgs = [''];
 let SelectedStop = '';
 
@@ -16,45 +16,44 @@ let SelectedStop = '';
 //   sendVal({command:"Init", arr: []}) 
 // }
 
-function BusStopssend (arr){
-  
-  state = 1; 
-  prevStateArgs[state]=[arr];
-  sendVal({command: "BusOptions", arr: arr});
+function BusStopssend(arr) {
+  state = 1;
+  prevStateArgs[state] = [arr];
+  sendVal({ command: "BusOptions", arr: arr });
 }
 
-function DetermineDirsend (arr){
-  state=2; 
-  prevStateArgs[state]=[arr];
-  sendVal({command: "Directions", arr: arr});
+function DetermineDirsend(arr) {
+  state = 2;
+  prevStateArgs[state] = [arr];
+  sendVal({ command: "Directions", arr: arr });
 }
 
-function FindStopssend (arr) {
- 
- state=3; 
- prevStateArgs[state]=[arr];
- sendVal({command:"selectedstops", 
-            arr: arr
-            });
+function FindStopssend(arr) {
+  state = 3;
+  prevStateArgs[state] = [arr];
+  sendVal({
+    command: "selectedstops",
+    arr: arr
+  });
 }
 
-function displayDestsend(arr){
+function displayDestsend(arr) {
   state = 4;
-  prevStateArgs[state]=[arr];
-  sendVal({command:"StopDestination",arr: arr});
+  prevStateArgs[state] = [arr];
+  sendVal({ command: "StopDestination", arr: [arr] });
 }
 
-function BusTimessend (arr) {
-  state=5;
-  prevStateArgs[state]=[arr];
-  sendVal({command:"times", arr: arr});
+function BusTimessend(arr) {
+  state = 5;
+  prevStateArgs[state] = [arr];
+  sendVal({ command: "times", arr: arr });
 }
 
 
 // Message socket opens
 messaging.peerSocket.onopen = () => {
   console.log("Companion Socket Open");
-  sendVal({command:"Init", arr:[]});
+  sendVal({ command: "Init", arr: [] });
 
 };
 
@@ -63,67 +62,68 @@ messaging.peerSocket.onclose = () => {
   console.log("Companion Socket Closed");
 };
 
-
-messaging.peerSocket.onmessage = (evt) => {
-//console.log(`App received: ${JSON.stringify(evt)}`);
-/*let promise = new Promise((res, rej) => {
-    setTimeout(() => console.log("Now it's done!"), 3000);
-  
-});
- promise.then(function(val){console.log("hello")});  
-*/
+messaging.peerSocket.onmessage = async evt => {
+  //console.log(`App received: ${JSON.stringify(evt)}`);
+  /*let promise = new Promise((res, rej) => {
+      setTimeout(() => console.log("Now it's done!"), 3000);
+    
+  });
+   promise.then(function(val){console.log("hello")});  
+  */
   let val = '';
   let str = JSON.stringify(evt.data.command);
-  str = str.slice(1,-1);
-  
-  for(let i = 0; i<str.length;i++){
+  str = str.slice(1, -1);
+
+  for (let i = 0; i < str.length; i++) {
     //console.log(str[i]);
   }
   //console.log(str.length);
-  
-  
-  if(str==="Init"){
-     
-      init();
-     }
-  else if(str==="previousstate"){
-   
+
+
+  if (str === "Init") {
+
+    init();
+  }
+  else if (str === "previousstate") {
+
     restorepreviousstate();
   }
- 
-  else if(str==="BusStops"){
+
+  else if (str === "BusStops") {
     //console.log("calling BusStops function");
-    
+
     //state=1; // state 1
     BusStops();
   }
-  else if(str==="BusSelection"){
-    str=JSON.stringify(evt.data.BusNum).slice(1,-1);
-   
+  else if (str === "BusSelection") {
+    str = JSON.stringify(evt.data.BusNum).slice(1, -1);
+
     SelectedBus = str;
     console.log("Determining Direction");
-    state=2; //state 2
+    state = 2; //state 2
     prevStateArgs.push([str]);
     console.log(str);
     DetermineDir(str);
-   
+
   }
-  else if(str==="FindStops"){
-    state=3; //state 3
+  else if (str === "FindStops") {
+    state = 3; //state 3
     prevStateArgs.push([evt]);
     FindStops(evt);
-    
+
   }
-  else if(str==="SelectedStop"){
+  else if (str === "SelectedStop") {
     //console.log("StopSelected");
     //val = StopNametoCode.get(JSON.stringify(evt.data.BusNum).slice(1,-1));
-    let code = StopNametoCode.get(JSON.stringify(evt.data.BusNum).slice(1,-1));
-    let Busfullname = LinetoFull.get(SelectedBus); 
-    state=4; //state 4 
-    prevStateArgs.push([code,Busfullname]);
+    let code = StopNametoCode.get(JSON.stringify(evt.data.BusNum).slice(1, -1));
+    let Busfullname = LinetoFull.get(SelectedBus);
+    state = 4; //state 4 
+    prevStateArgs.push([code, Busfullname]);
     console.log("fetchTimes is called");
-    selectedStop = fetchTimes(code,Busfullname);
-    displayDest(selectedStop);
+    fetchTimes(code, Busfullname)
+    .then(val => {
+      displayDest(val);
+    });
 
   }
 
@@ -133,13 +133,13 @@ messaging.peerSocket.onmessage = (evt) => {
 //   prevstate[0](prevStateArgs[0]);
 // }
 
-function restorepreviousstate(){
-  if(state!==0){
-    let arr = prevState[state-1];
-    arr(...prevStateArgs[state-1]);
+function restorepreviousstate() {
+  if (state !== 0) {
+    let arr = prevState[state - 1];
+    arr(...prevStateArgs[state - 1]);
+  }
 }
-  }  
-  
+
 
 // A user changes settings
 settingsStorage.onchange = evt => {
@@ -152,126 +152,128 @@ settingsStorage.onchange = evt => {
 };
 
 
-function fetchTimes(Stopcode,BusLine){
-    state=4; //state 4 
-    prevStateArgs[state]=[arguments]
-    var params = {
-          key: "?key=c1c48a75-1692-4672-baec-5ae98bc790ec",
-          version: "&version=2",
-          MonitoringRef: `&MonitoringRef=${Stopcode}`,
-          OperatorRef:"&OperatorRef=MTA",
-          StopMonitoringDetailLevel:"&StopMonitoringDetailLevel=minimum",
-          LineRef:`&LineRef=${BusLine}`
-      };
+async function fetchTimes(Stopcode, BusLine) {
+  state = 4; //state 4 
+  prevStateArgs[state] = [arguments];
+  var params = {
+    key: "?key=c1c48a75-1692-4672-baec-5ae98bc790ec",
+    version: "&version=2",
+    MonitoringRef: `&MonitoringRef=${Stopcode}`,
+    OperatorRef: "&OperatorRef=MTA",
+    StopMonitoringDetailLevel: "&StopMonitoringDetailLevel=minimum",
+    LineRef: `&LineRef=${BusLine}`
+  };
 
-    const request = `https://bustime.mta.info/api/siri/stop-monitoring.json`+ params.key + params.version
-    + params.MonitoringRef + params.OperatorRef + params.StopMonitoringDetailLevel+params.LineRef;
+  console.log(params);
 
-      //console.log(request);
-      fetch(request)
-      .then(response => {
-      
-          return response.json();
+  const request = (`https://bustime.mta.info/api/siri/stop-monitoring.json` + params.key + params.version
+    + params.MonitoringRef + params.OperatorRef + params.StopMonitoringDetailLevel + params.LineRef).replace("+", "%2B");
 
-      })
-      .catch(function(error){
-        console.log(error);
+  
+  //console.log(request);
+  return fetch(request)
+    .then(response => response.json())
+    .catch(function (error) {
+      console.log(error);
     })
 
-function displayDest(json){
-  
-  displayDestsend(json.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit[0].MonitoredVehicleJourney.DestinationName);
+
+
+  // .then(json => {
+  //     //let = null;
+  //     //console.log(json);
+  //     const times = json.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit;
+
+
+  //     for(let time of times){
+  //       var ETA=time.MonitoredVehicleJourney.MonitoredCall;
+  //       //console.log(time.MonitoredVehicleJourney.MonitoredCall);
+  //       ETA= ETA.ExpectedArrivalTime;
+  //       if(ETA){
+  //         //console.log(ETA);
+  //     }}
+
+  //     //sendVal({command:"times", arr: times});
+  //     prevStateArgs[state]=[times]
+  //     BusTimessend(times);
+
+  // })
+  // .catch(function(error){
+  //     console.log(error);
+  // })
 
 }
 
-      // .then(json => {
-      //     //let = null;
-      //     //console.log(json);
-      //     const times = json.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit;
-          
-          
-      //     for(let time of times){
-      //       var ETA=time.MonitoredVehicleJourney.MonitoredCall;
-      //       //console.log(time.MonitoredVehicleJourney.MonitoredCall);
-      //       ETA= ETA.ExpectedArrivalTime;
-      //       if(ETA){
-      //         //console.log(ETA);
-      //     }}
-          
-      //     //sendVal({command:"times", arr: times});
-      //     prevStateArgs[state]=[times]
-      //     BusTimessend(times);
-          
-      // })
-      // .catch(function(error){
-      //     console.log(error);
-      // })
+function displayDest(json) {
+  let str = json.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit[0].MonitoredVehicleJourney.DestinationName
+  console.log(str);
+  displayDestsend(str);
 
-      }
+}
 
-function DetermineDir(Bus){
+function DetermineDir(Bus) {
   //let Directions = {};
- 
-  state=2; //state 2
-  prevStateArgs[state]=Bus;
-  SelectedBus= Bus;
- let Dir = []; 
- let stops = BustoStop.get(Bus);
- 
-  for (let stop of stops){
-    
-      if(Dir.indexOf(stop.direction)===-1){
-        Dir.push(stop.direction);
-        console.log(stop.direction);
-      }
-  } 
-  
 
- for(let [index, Element] of Dir.entries()){
-   //console.log("hello");
-   switch(Element){
-     case 'E':
-       Dir[index] = "East";
-       shortDirectionstoFull.set("East",'E')
-       break;
-     case 'W':
-       Dir[index] = "West";
-       shortDirectionstoFull.set("West",'W')
-       break;
-     case 'N':
-     Dir[index] = "North";
-     shortDirectionstoFull.set("North",'N')
-     break;
-     case 'S':
-       Dir[index] = "South";
-     shortDirectionstoFull.set("South",'S')
-       break;
-     case 'NE':
-       Dir[index] = "NorthEast";
-       shortDirectionstoFull.set("NorthEast",'NE')
-       break;
-     case 'NW':
-       Dir[index] = "NorthWest";
-       shortDirectionstoFull.set("NorthWest",'NW')
-       break;
-     case 'SE':
-       Dir[index] = "SouthEast";
-       shortDirectionstoFull.set("SouthEast",'SE')
-     break;
-     case 'SW':
-       Dir[index] = "SouthWest";
-       shortDirectionstoFull.set("SouthWest",'SW')
-       break;
-       
-   }
- }
-  
-  for(let sample of Dir){
+  state = 2; //state 2
+  prevStateArgs[state] = Bus;
+  SelectedBus = Bus;
+  let Dir = [];
+  let stops = BustoStop.get(Bus);
+
+  for (let stop of stops) {
+
+    if (Dir.indexOf(stop.direction) === -1) {
+      Dir.push(stop.direction);
+      console.log(stop.direction);
+    }
+  }
+
+
+  for (let [index, Element] of Dir.entries()) {
+    //console.log("hello");
+    switch (Element) {
+      case 'E':
+        Dir[index] = "East";
+        shortDirectionstoFull.set("East", 'E')
+        break;
+      case 'W':
+        Dir[index] = "West";
+        shortDirectionstoFull.set("West", 'W')
+        break;
+      case 'N':
+        Dir[index] = "North";
+        shortDirectionstoFull.set("North", 'N')
+        break;
+      case 'S':
+        Dir[index] = "South";
+        shortDirectionstoFull.set("South", 'S')
+        break;
+      case 'NE':
+        Dir[index] = "NorthEast";
+        shortDirectionstoFull.set("NorthEast", 'NE')
+        break;
+      case 'NW':
+        Dir[index] = "NorthWest";
+        shortDirectionstoFull.set("NorthWest", 'NW')
+        break;
+      case 'SE':
+        Dir[index] = "SouthEast";
+        shortDirectionstoFull.set("SouthEast", 'SE')
+        break;
+      case 'SW':
+        Dir[index] = "SouthWest";
+        shortDirectionstoFull.set("SouthWest", 'SW')
+        break;
+
+    }
+  }
+
+  for (let sample of Dir) {
     console.log(sample);
   }
   //console.log("hello");
-  
-    DetermineDirsend(Dir);
+
+  DetermineDirsend(Dir);
   // if(stops[0].direction==='E'||stops[0].direction==='W'){
   //   Dir1="East";
   //   Dir2="West";
@@ -280,13 +282,13 @@ function DetermineDir(Bus){
   //   Dir1="North";
   //   Dir2='South';
   // }
-  
-  
-    //let arr = [Dir1,Dir2];
-  
-  
-    //let arr = [Dir1,Dir2];
-// for( let stop of stops){
+
+
+  //let arr = [Dir1,Dir2];
+
+
+  //let arr = [Dir1,Dir2];
+  // for( let stop of stops){
   //   console.log(stop.code);
   //   arr.push(stop)
   // }
@@ -295,121 +297,122 @@ function DetermineDir(Bus){
   //sendVal(ValSend);
 }
 
-  function init(){
-    
-    //sendVal({command:"Init", arr: []})
-    state=0;
-    //prevStateArgs[state]=[];
-    BustoStop.clear();
-    StopNametoCode.clear();
-    LinetoFull.clear();
-    SelectedBus = '';
-    sendVal({command:"Init"})
-  }
+function init() {
+
+  //sendVal({command:"Init", arr: []})
+  state = 0;
+  //prevStateArgs[state]=[];
+  BustoStop.clear();
+  StopNametoCode.clear();
+  LinetoFull.clear();
+  SelectedBus = '';
+  sendVal({ command: "Init" })
+}
 
 
-  function FindStops(evt){
-    
-    state=3; //state 3
-    prevStateArgs[state]=evt;
-    //console.log("Finding Relevant");
-    let stops = BustoStop.get(SelectedBus);
-    let relevantstops = [];
-    console.log(`Direction: ${evt.data.BusNum}`)
-    let directions = shortDirectionstoFull.get(evt.data.BusNum);
-    //console.log(dir[0]);
-    for(let opts of stops){
-      //console.log(`Bus: ${opts.routes.id} Direction:${opts.direction}`);
-      if(opts.direction===directions){
-        
-        //console.log(evt.data.direction[0]);
-                                                                                                                                                                      relevantstops.push(opts.name);
-        
-        StopNametoCode.set(opts.name,opts.code);
-        //console.log(relevantstops);
-      }
+function FindStops(evt) {
+
+  state = 3; //state 3
+  prevStateArgs[state] = evt;
+  //console.log("Finding Relevant");
+  let stops = BustoStop.get(SelectedBus);
+  let relevantstops = [];
+  console.log(`Direction: ${evt.data.BusNum}`)
+  let directions = shortDirectionstoFull.get(evt.data.BusNum);
+  //console.log(dir[0]);
+  for (let opts of stops) {
+    //console.log(`Bus: ${opts.routes.id} Direction:${opts.direction}`);
+    if (opts.direction === directions) {
+
+      //console.log(evt.data.direction[0]);
+      relevantstops.push(opts.name);
+
+      StopNametoCode.set(opts.name, opts.code);
+      //console.log(relevantstops);
     }
-    
-    // for(let stop of relevantstops){
-    //   console.log(stop);
-    // }
-    prevStateArgs[state]=[relevantstops];
-    FindStopssend(relevantstops);
-    // sendVal({command:"selectedstops", 
-    //         arr: relevantstops
-    //         });
-    
   }
 
-  function BusStops(){
-     
-      let lat = 40.585;
-      let long = -73.812;
-      let latspan = .01;
-      let longspan = .05;
-      const proxy ='https://cors-anywhere.herokuapp.com/';   
-      const key = 'c1c48a75-1692-4672-baec-5ae98bc790ec'
-      const URL = `https://bustime.mta.info/api/where/stops-for-location.json?lat=${lat}&lon=${long}&latSpan=${latspan}&lonSpan=${longspan}&key=${key}`;
-      state = 1; 
+  // for(let stop of relevantstops){
+  //   console.log(stop);
+  // }
+  prevStateArgs[state] = [relevantstops];
+  FindStopssend(relevantstops);
+  // sendVal({command:"selectedstops", 
+  //         arr: relevantstops
+  //         });
 
-      //fetch("https://Google.com")
-      
+}
 
-        let monitor = '&MonitoringRef=' + "550771";
-        let line = '&LineRef=MTABC_' + "Q22";
+function BusStops() {
+
+  let lat = 40.585;
+  let long = -73.812;
+  let latspan = .01;
+  let longspan = .05;
+  const proxy = 'https://cors-anywhere.herokuapp.com/';
+  const key = 'c1c48a75-1692-4672-baec-5ae98bc790ec'
+  const URL = `https://bustime.mta.info/api/where/stops-for-location.json?lat=${lat}&lon=${long}&latSpan=${latspan}&lonSpan=${longspan}&key=${key}`;
+  state = 1;
+
+  //fetch("https://Google.com")
 
 
-        fetch(URL)
-      .then((response) => {
-          /*console.log(JSON.stringify(response.data));
-          console.log(response);*/
-          return response.json()})
+  let monitor = '&MonitoringRef=' + "550771";
+  let line = '&LineRef=MTABC_' + "Q22";
 
-      .then((json) => {
 
-         const arr = json.data.stops;
-         //console.log(arr);
-          for(let st of arr){
-           //console.log(st); // Map route.shortname to arr index which maps it to the object
-           let routes=st.routes;
-             for(let path of routes){ 
+  fetch(URL)
+    .then((response) => {
+      /*console.log(JSON.stringify(response.data));
+      console.log(response);*/
+      return response.json()
+    })
 
-               //console.log(path.shortName);
+    .then((json) => {
 
-               let temp = BustoStop.get(path.shortName);
+      const arr = json.data.stops;
+      //console.log(arr);
+      for (let st of arr) {
+        //console.log(st); // Map route.shortname to arr index which maps it to the object
+        let routes = st.routes;
+        for (let path of routes) {
 
-                 if(temp === undefined){
-                   //console.log("hi");
-                 BustoStop.set(path.shortName,[st]);
-                 LinetoFull.set(path.shortName,path.id)
-                 }
-                 else{
-                   //console.log("hello");
-                   temp.push(st);
-                 }
+          //console.log(path.shortName);
 
-             }
-         }
-          const keyarr = [];
-          let keys = BustoStop.keys();
-          //console.log(`key: ${keys.next().value}`);
-          let it = keys.next();
-          while(it.done === false){
+          let temp = BustoStop.get(path.shortName);
 
-           // console.log(it.value);
-            keyarr.push(it.value);
-            it = keys.next();
+          if (temp === undefined) {
+            //console.log("hi");
+            BustoStop.set(path.shortName, [st]);
+            LinetoFull.set(path.shortName, path.id)
           }
-          BusStopssend(keyarr);
-          prevStateArgs[state]=[keyarr];
-          //sendVal({command: "BusOptions", arr: keyarr});
-          
+          else {
+            //console.log("hello");
+            temp.push(st);
+          }
 
-        })
-      .catch(error => console.log(error));
+        }
+      }
+      const keyarr = [];
+      let keys = BustoStop.keys();
+      //console.log(`key: ${keys.next().value}`);
+      let it = keys.next();
+      while (it.done === false) {
+
+        // console.log(it.value);
+        keyarr.push(it.value);
+        it = keys.next();
+      }
+      BusStopssend(keyarr);
+      prevStateArgs[state] = [keyarr];
+      //sendVal({command: "BusOptions", arr: keyarr});
 
 
-  }
+    })
+    .catch(error => console.log(error));
+
+
+}
 
 // Send data to device using Messaging API
 function sendVal(data) {
@@ -418,4 +421,3 @@ function sendVal(data) {
   }
 }
 
- 
