@@ -177,8 +177,6 @@ async function fetchTimes(Stopcode, BusLine) {
       console.log(error);
     })
 
-
-
   // .then(json => {
   //     //let = null;
   //     //console.log(json);

@@ -56,17 +56,20 @@
 			<set href="#header/text" attributeName="text-buffer" to="Confirm Route Destination" />
 			<set href="#header/text" attributeName="fill" to="fb-magenta" />
 			<set href="#copy/text" attributeName="text-buffer" to="Please confirm route destination." />
+			<set href="#copy/text" attributeName="text-length" to="100" />
 			<set href="#bottom-padding" attributeName="display" to="none" />
 		</use>
 		<!-- Left button -->
 		<use id="btnLeft" class="dialog-half-button-left" href="#square-button-neutral">
 			<set id="btnLeftText" href="#text" attributeName="text-buffer" to="Later" />
 			<set href="#text" attributeName="text-anchor" to="middle" />
+			<set href="#text" attributeName="text-length" to="100" />
 		</use>
 		<!-- Right button -->
 		<use id="btnRight" class="dialog-half-button-right" href="#square-button-negative">
 			<set id="btnRighttext" href="#text" attributeName="text-buffer" to="Start" />
 			<set href="#text" attributeName="text-anchor" to="middle" />
+			<set href="#text" attributeName="text-length" to="100" />
 		</use>
 	</svg>
 	<use id="btn-br" href="#combo-button-lower-right" fill="fb-peach">

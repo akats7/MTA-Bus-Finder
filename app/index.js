@@ -189,7 +189,7 @@ function DisplayDestination(dest) {
   btnRight.style.display = "inline";
   let bodytext = displayDestBlock.getElementById("copy");
   bodytext.text = dest;
-  btnRight.text = "Conf";
+  btnRight.text = "Confirm";
   btnLeft.text = "Return";
   //displayDestBlock.text = dest;
 }
