@@ -144,6 +144,10 @@ previousstate.onclick = evt => {
 messaging.peerSocket.onmessage = evt => {
   let str = JSON.stringify(evt.data.command);
   str = str.slice(1, -1);
+  VTList.style.display = "none";
+myPopup.style.display = "none";
+list.style.display = "none";
+  
 
 
   if (str === "Init") {
@@ -191,7 +195,12 @@ function DisplayDestination(dest) {
   bodytext.text = dest;
   btnRight.text = "Confirm";
   btnLeft.text = "Return";
-  //displayDestBlock.text = dest;
+  btnLeft.onclick = () => {
+    sendVal({ command: "previousstate" });
+  }
+  btnRight.onclick = () => {
+
+  }
 }
 
 let showtimes = (arr) => {

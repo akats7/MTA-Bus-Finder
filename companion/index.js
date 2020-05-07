@@ -7,7 +7,7 @@ let LinetoFull = new Map();
 let shortDirectionstoFull = new Map();
 let SelectedBus = '';
 let state = 0;
-let prevState = [init, BusStopssend, DetermineDirsend, FindStopssend, BusTimessend];
+let prevState = [init, BusStopssend, DetermineDirsend, FindStopssend, displayDestsend, BusTimessend];
 let prevStateArgs = [''];
 let SelectedStop = '';
 
@@ -31,6 +31,7 @@ function DetermineDirsend(arr) {
 function FindStopssend(arr) {
   state = 3;
   prevStateArgs[state] = [arr];
+  console.log("FindStopssend")
   sendVal({
     command: "selectedstops",
     arr: arr
@@ -39,6 +40,7 @@ function FindStopssend(arr) {
 
 function displayDestsend(arr) {
   state = 4;
+  console.log(arr);
   prevStateArgs[state] = [arr];
   sendVal({ command: "StopDestination", arr: [arr] });
 }
@@ -135,8 +137,11 @@ messaging.peerSocket.onmessage = async evt => {
 
 function restorepreviousstate() {
   if (state !== 0) {
+   
     let arr = prevState[state - 1];
     arr(...prevStateArgs[state - 1]);
+    console.log(arr);
+    console.log(...prevStateArgs[state - 1]);
   }
 }
 
