@@ -129,7 +129,34 @@ messaging.peerSocket.onmessage = async evt => {
 
   }
 
-};
+   else if(str==="bustimelist"){
+     let timeslist = [];
+     
+     console.log(SelectedStop);
+     const times = SelectedStop.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit;
+
+        for(let time of times){
+          if (time.MonitoredVehicleJourney.MonitoredCall.ExpectedArrivalTime) {
+            timeslist.push(time.MonitoredVehicleJourney.MonitoredCall.ExpectedArrivalTime);
+          }
+          else{
+            timeslist.push(time.MonitoredVehicleJourney.OriginAimedDepartureTime)
+          }
+          console.log(time.MonitoredVehicleJourney.MonitoredCall);
+        }
+          timeslist.map((UTCtime) => {
+          let time = new Date(UTCtime)
+          let min = time.getUTCMinutes();
+          let hr = time.getUTCHours() - 5;
+          console.log(`${hr === 0 ? 12 : hr > 12 ? hr - 12 : hr}:${min} ${hr < 12 ? 'AM' : 'PM'}`);
+          });
+        sendVal({command:"times", arr: times});
+        prevStateArgs[state]=[times]
+        BusTimessend(times);
+  
+
+ };
+}
 
 // function reset(){
 //   prevstate[0](prevStateArgs[0]);
@@ -177,7 +204,11 @@ async function fetchTimes(Stopcode, BusLine) {
   
   //console.log(request);
   return fetch(request)
-    .then(response => response.json())
+    .then((response) => {
+      let stop = response.json();
+      SelectedStop = stop;
+      return stop;
+    })
     .catch(function (error) {
       console.log(error);
     })
@@ -423,4 +454,3 @@ function sendVal(data) {
     messaging.peerSocket.send(data);
   }
 }
-

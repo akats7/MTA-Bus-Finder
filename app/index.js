@@ -199,7 +199,8 @@ function DisplayDestination(dest) {
     sendVal({ command: "previousstate" });
   }
   btnRight.onclick = () => {
-
+    sendVal({command: "bustimelist"});
+    console.log("send");
   }
 }
 
