@@ -5,9 +5,10 @@ let BustoStop = new Map();
 let StopNametoCode = new Map();
 let LinetoFull = new Map();
 let shortDirectionstoFull = new Map();
+let distancetoETA = new Map();
 let SelectedBus = '';
 let state = 0;
-let prevState = [init, BusStopssend, DetermineDirsend, FindStopssend, displayDestsend, BusTimessend];
+let prevState = [init, BusStopssend, DetermineDirsend, FindStopssend, displayDestsend, BusDistancessend];
 let prevStateArgs = [''];
 let SelectedStop = '';
 
@@ -45,10 +46,10 @@ function displayDestsend(arr) {
   sendVal({ command: "StopDestination", arr: [arr] });
 }
 
-function BusTimessend(arr) {
+function BusDistancessend(arr) {
   state = 5;
   prevStateArgs[state] = [arr];
-  sendVal({ command: "times", arr: arr });
+  sendVal({ command: "busDistances", arr: arr });
 }
 
 
@@ -131,28 +132,39 @@ messaging.peerSocket.onmessage = async evt => {
 
    else if(str==="bustimelist"){
      let timeslist = [];
+     console.log("SELECTEDSTOP")
+    
      
-     console.log(SelectedStop);
+     console.log(JSON.stringify(SelectedStop));
      const times = SelectedStop.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit;
 
         for(let time of times){
           if (time.MonitoredVehicleJourney.MonitoredCall.ExpectedArrivalTime) {
-            timeslist.push(time.MonitoredVehicleJourney.MonitoredCall.ExpectedArrivalTime);
+            let UTCtime = time.MonitoredVehicleJourney.MonitoredCall.ExpectedArrivalTime;
+            let formDate = new Date(UTCtime)
+            let min = formDate.getUTCMinutes();
+            console.log(min);
+            let hr = formDate.getUTCHours() - 5;
+            let formattedTime = `${hr === 0 ? 12 : hr > 12 ? hr - 12 : hr}:${min} ${hr < 12 ? 'AM' : 'PM'}`;
+            distancetoETA.set(time.MonitoredVehicleJourney.MonitoredCall.ArrivalProximityText,formattedTime);
           }
           else{
-            timeslist.push(time.MonitoredVehicleJourney.OriginAimedDepartureTime)
+            distancetoETA.set(time.MonitoredVehicleJourney.MonitoredCall.ArrivalProximityText,"TBD");
           }
-          console.log(time.MonitoredVehicleJourney.MonitoredCall);
+          timeslist.push(time.MonitoredVehicleJourney.MonitoredCall.ArrivalProximityText);
         }
-          timeslist.map((UTCtime) => {
-          let time = new Date(UTCtime)
-          let min = time.getUTCMinutes();
-          let hr = time.getUTCHours() - 5;
-          console.log(`${hr === 0 ? 12 : hr > 12 ? hr - 12 : hr}:${min} ${hr < 12 ? 'AM' : 'PM'}`);
-          });
-        sendVal({command:"times", arr: times});
-        prevStateArgs[state]=[times]
-        BusTimessend(times);
+          // let formatTimes = timeslist.map((UTCtime) => {
+          // let time = new Date(UTCtime)
+          // let min = time.getUTCMinutes();
+          // // console.log(min);
+          // let hr = time.getUTCHours() - 5;
+          // return `${hr === 0 ? 12 : hr > 12 ? hr - 12 : hr}:${min} ${hr < 12 ? 'AM' : 'PM'}`;
+          // });
+          console.log(timeslist);
+         
+        //sendVal({command:"times", arr: times});
+        //prevStateArgs[state]=[formatTimes]
+        BusDistancessend(timeslist);
   
 
  };
@@ -206,7 +218,6 @@ async function fetchTimes(Stopcode, BusLine) {
   return fetch(request)
     .then((response) => {
       let stop = response.json();
-      SelectedStop = stop;
       return stop;
     })
     .catch(function (error) {
@@ -240,6 +251,7 @@ async function fetchTimes(Stopcode, BusLine) {
 
 function displayDest(json) {
   let str = json.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit[0].MonitoredVehicleJourney.DestinationName
+  SelectedStop = json;
   console.log(str);
   displayDestsend(str);
 

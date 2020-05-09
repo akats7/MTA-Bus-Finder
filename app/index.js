@@ -181,11 +181,18 @@ list.style.display = "none";
     
     DisplayDestination(evt.data.arr);
   }
-  else if (str === "times") {
-    console.log("times sent over");
-    showtimes(evt.data.arr);
+  else if (str === "busDistances") {
+    
+    showDistances(evt.data.arr);
   }
 };
+
+function showDistances (arr) {
+  choices.style.display = "inline";
+  VTList.style.display = "inline";
+  let farr = arr;
+  mylist("Distances", farr);
+}
 
 function DisplayDestination(dest) {
   myPopup.style.display="inline";
@@ -204,17 +211,17 @@ function DisplayDestination(dest) {
   }
 }
 
-let showtimes = (arr) => {
-  console.log("called");
-  const standardTimes = [];
-  for (let UTCtime of arr) {
-    let time = new Date(UTCtime)
-    let min = time.getUTCMinutes();
-    let hr = time.getUTCHours() - 5;
-    console.log(`${hr === 0 ? 12 : hr > 12 ? hr - 12 : hr}:${min} ${hr < 12 ? 'AM' : 'PM'}`);
-  }
+// let showtimes = (arr) => {
+//   console.log("called");
+//   const standardTimes = [];
+//   for (let UTCtime of arr) {
+//     let time = new Date(UTCtime)
+//     let min = time.getUTCMinutes();
+//     let hr = time.getUTCHours() - 5;
+//     console.log(`${hr === 0 ? 12 : hr > 12 ? hr - 12 : hr}:${min} ${hr < 12 ? 'AM' : 'PM'}`);
+//   }
 
-}
+// }
 
 // Message socket opens
 messaging.peerSocket.onopen = () => {
