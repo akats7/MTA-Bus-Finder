@@ -53,6 +53,13 @@ function BusDistancessend(arr) {
 }
 
 
+function ETAsend(arr){
+  state = 6; 
+  prevStateArgs[state] =[arr];
+  sendVal ({command: "ETAsent", arr: arr});
+}
+
+
 // Message socket opens
 messaging.peerSocket.onopen = () => {
   console.log("Companion Socket Open");
@@ -66,6 +73,7 @@ messaging.peerSocket.onclose = () => {
 };
 
 messaging.peerSocket.onmessage = async evt => {
+  
   //console.log(`App received: ${JSON.stringify(evt)}`);
   /*let promise = new Promise((res, rej) => {
       setTimeout(() => console.log("Now it's done!"), 3000);
@@ -73,8 +81,11 @@ messaging.peerSocket.onmessage = async evt => {
   });
    promise.then(function(val){console.log("hello")});  
   */
+
+  //console.log(evt.data.BusNum)
   let val = '';
   let str = JSON.stringify(evt.data.command);
+  console.log(str);
   str = str.slice(1, -1);
 
   for (let i = 0; i < str.length; i++) {
@@ -130,7 +141,7 @@ messaging.peerSocket.onmessage = async evt => {
 
   }
 
-   else if(str==="bustimelist"){
+   else if(str === "bustimelist"){
      let timeslist = [];
      console.log("SELECTEDSTOP")
     
@@ -143,6 +154,11 @@ messaging.peerSocket.onmessage = async evt => {
             let UTCtime = time.MonitoredVehicleJourney.MonitoredCall.ExpectedArrivalTime;
             let formDate = new Date(UTCtime)
             let min = formDate.getUTCMinutes();
+            
+            if (min < 10){
+              min = `0${min}`;
+            }
+
             console.log(min);
             let hr = formDate.getUTCHours() - 5;
             let formattedTime = `${hr === 0 ? 12 : hr > 12 ? hr - 12 : hr}:${min} ${hr < 12 ? 'AM' : 'PM'}`;
@@ -167,7 +183,20 @@ messaging.peerSocket.onmessage = async evt => {
         BusDistancessend(timeslist);
   
 
- };
+ }
+
+ else if (str=== "distancesselected" ){
+        console.log("Distance")
+        let str = JSON.stringify(evt.data.BusNum).slice(1,-1);
+        console.log(str);
+        let EAT = distancetoETA.get(str)
+        console.log(EAT);
+        let arr = [EAT,str];
+        ETAsend(arr);
+        
+
+ }
+
 }
 
 // function reset(){

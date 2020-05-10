@@ -72,6 +72,17 @@
 			<set href="#text" attributeName="text-length" to="100" />
 		</use>
 	</svg>
+	<svg >
+		<use id="mixedtext" href="#mixed-text-center-top" height="100%" y="20%" fill="fb-yellow">
+			<set href="#mixed-text-center-top" attributeName="y" to="50">
+			<set href="#header/text" attributeName="text-length" to="100">
+			<set href="#header/text" attributeName="text-buffer" to="Header Text"/>
+			<set href="#copy/text" attributeName="text-buffer" to="This is the center and middle-aligned body text."/>
+			
+			
+			</use>
+	</svg>
+
 	<use id="btn-br" href="#combo-button-lower-right" fill="fb-peach">
 		<set href="combo-button-icon" attributeName="href" to="play.png" />
 		<set href="combo-button-icon-press" attributeName="href" to="play_press.png" />

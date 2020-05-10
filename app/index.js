@@ -15,6 +15,7 @@ let VTList = document.getElementById("my-list");
 let btnLeft = document.getElementById("btnLeft");
 let btnRight = document.getElementById("btnRight");
 let displayDestBlock = document.getElementById("mixedblock");
+let mixedtext = document.getElementById('mixedtext');
 
 
 let displayRoute = true
@@ -23,6 +24,8 @@ let state = '';
 VTList.style.display = "none";
 myPopup.style.display = "none";
 list.style.display = "none";
+mixedtext.style.display  = 'none';
+
 
 
 
@@ -144,9 +147,10 @@ previousstate.onclick = evt => {
 messaging.peerSocket.onmessage = evt => {
   let str = JSON.stringify(evt.data.command);
   str = str.slice(1, -1);
+  mixedtext.style.display ="none";
   VTList.style.display = "none";
-myPopup.style.display = "none";
-list.style.display = "none";
+  myPopup.style.display = "none";
+  list.style.display = "none";
   
 
 
@@ -185,13 +189,22 @@ list.style.display = "none";
     
     showDistances(evt.data.arr);
   }
+
+  else if (str === "ETAsent"){
+    mixedtext.style.display = 'inline';
+    ////mixedtextheader.text = "7"
+    let mixedtextheader = mixedtext.getElementById("header");
+    let mixedtextcopy = mixedtext.getElementById("copy")
+    mixedtextcopy.text = `Bus Distance: ${evt.data.arr[1]}`;
+    mixedtextheader.text = `ETA: ${evt.data.arr[0]}`;
+  }
 };
 
 function showDistances (arr) {
   choices.style.display = "inline";
   VTList.style.display = "inline";
   let farr = arr;
-  mylist("Distances", farr);
+  mylist("distancesselected", farr);
 }
 
 function DisplayDestination(dest) {
