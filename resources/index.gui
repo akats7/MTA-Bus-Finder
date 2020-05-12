@@ -74,23 +74,63 @@
 	</svg>
 	<svg >
 		<use id="mixedtext" href="#mixed-text-center-top" height="100%" y="20%" fill="fb-yellow">
-			<set href="#mixed-text-center-top" attributeName="y" to="50">
-			<set href="#header/text" attributeName="text-length" to="100">
+			<set href="#header/text" attributeName="text-length" to="100" />
 			<set href="#header/text" attributeName="text-buffer" to="Header Text"/>
 			<set href="#copy/text" attributeName="text-buffer" to="This is the center and middle-aligned body text."/>
-			
-			
 			</use>
 	</svg>
 
-	<use id="btn-br" href="#combo-button-lower-right" fill="fb-peach">
-		<set href="combo-button-icon" attributeName="href" to="play.png" />
-		<set href="combo-button-icon-press" attributeName="href" to="play_press.png" />
-		<set href="combo-button-stroke" attributeName="display" to="inline" />
+	
+		
+	<svg id="combobuttons">
+		<use id="btn-tl" href="#combo-button-upper-left" fill="fb-cyan">
+			<set href="combo-button-icon" attributeName="href" to="Settings_app_icon_clear.png"/>
+			<set href="combo-button-icon-press" attributeName="href" to="Settings-icon.png"/>
+			<!-- <set href="combo-button-stroke" attributeName="display" to="inline"/> -->
 	</use>
-	<use id="btn-tr" href="#combo-button-upper-right" fill="fb-red">
-		<set href="combo-button-icon" attributeName="href" to="list.png" />
-		<set href="combo-button-icon-press" attributeName="href" to="list_press.png" />
-		<set href="combo-button-stroke" attributeName="display" to="inline" />
+		<use id="btn-br" href="#combo-button-lower-right" fill="fb-peach">
+			<set href="combo-button-icon" attributeName="href" to="play.png" />
+			<set href="combo-button-icon-press" attributeName="href" to="play_press.png" />
+			<set href="combo-button-stroke" attributeName="display" to="inline" />
+		</use>
+		<use id="btn-tr" href="#combo-button-upper-right" fill="fb-red">
+			<set href="combo-button-icon" attributeName="href" to="list.png" />
+			<set href="combo-button-icon-press" attributeName="href" to="list_press.png" />
+			<set href="combo-button-stroke" attributeName="display" to="inline" />
+		</use>
+	</svg>
+
+	<svg id= "settings" display="none" >
+	<use id="decrease" href="#square-button-icon" fill="fb-black" height="86" width="50%" y='150'>
+		<set href="#text" attributeName="text-buffer" to="" />
+		<!-- <set href="#stroke" attributeName="display" to="none" />
+		<set href="#text" attributeName="display" to="none" /> -->
+		<set href="#image" attributeName="href" to="Down.png" />
 	</use>
+
+	<use id="increase" href="#square-button-icon" fill="fb-black" width="50%" height="86" y='70'>
+		<set href="#text" attributeName="text-buffer" to="" />
+		<!-- <set href="#stroke" attributeName="display" to="none" />
+		<set href="#text" attributeName="display" to="none" /> -->
+		<!-- <set href="#text" attributeName="text-buffer" to="Submit"/> -->
+		<set href="#image" attributeName="href" to="Up.png" />
+	</use>
+	<rect id="radiusnum" x="150" y="75" width="49%" height="52%" fill="white"/> 
+	
+	<text id="radiustext" x="225" y="160" font-family="System-Regular" fill="black"
+        font-size="30" font-weight="bold"
+        text-anchor="middle">HELLO</text>
+
+	<use href="#mixed-text-center-top" height="100%" y="5%" fill="fb-black" font-size="10">
+		<set href="#text" attributeName="font-size" to="10"/> 
+		<set href="#header/text" attributeName="text-length" to="100" />
+		<set href="#header/text" attributeName="text-buffer" to="Search Radius"/>
+	</use>
+
+	<rect id="radiusnum" fill="fb-green" width="36%" height="40" y="250" x="100"/> 
+	<use id="submit" href="#square-button" fill="fb-green" width="40%" height="60" y="240" x="93"  >
+		<!-- <set href="#square-button" height="10%" y="$-10" x="150" width="25%" fill="fb-green" >  -->
+		<set href="#text" attributeName="text-buffer" to="Submit"/>
+	</use>
+	</svg>
 </svg>
