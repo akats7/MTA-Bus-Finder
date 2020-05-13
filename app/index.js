@@ -21,10 +21,15 @@ let mixedtextcopy = mixedtext.getElementById("copy")
 let settingsbutton = document.getElementById('btn-tl');
 let settings = document.getElementById('settings');
 let combo = document.getElementById("combobuttons")
+let increase = document.getElementById('increase');
+let decrease = document.getElementById('decrease');
+let radtext = document.getElementById('radiustext');
+let submitRadius = document.getElementById('submit');
 
 
 let displayRoute = true
 let state = '';
+
 
 VTList.style.display = "none";
 myPopup.style.display = "none";
@@ -130,7 +135,41 @@ settingsbutton.onclick = evt => {
   firstbutton.style.display = "none";
   settings.style.display = 'inline';
   combo.style.display = "none";
+  let count = radtext.text;
+  count = count.replace(' Miles', ''); 
+  count = parseFloat(count);
+  // function parse(arg){
+  //   return Number.parseFloat(arg).toFixed(2);
+  // }
+
+increase.onclick = (evt) => {
+  if(count < 2.0){
+    count += 0.1;
+  }
+  count = parseFloat(count.toFixed(1));
+  console.log(count);
+  
+
+  radtext.text = `${count} Miles`;
+  // count = parseFloat(count);
 }
+
+decrease.onclick = evt => {  
+  if (count > 0.1){
+    count -=0.1;
+  }
+  
+  count = parseFloat(count.toFixed(1))
+  radtext.text = `${count} Miles`
+}
+
+submitRadius.onclick = () => {
+  sendVal({ command: "Radius", data: count });
+}
+
+}
+
+
 
 reset.onclick = evt => {
 
@@ -163,13 +202,14 @@ messaging.peerSocket.onmessage = evt => {
   VTList.style.display = "none";
   myPopup.style.display = "none";
   list.style.display = "none";
-  
+  settings.style.display = "none";
 
 
   if (str === "Init") {
 
     firstbutton.style.display = "inline";
     VTList.style.display = "none";
+    combo.style.display = 'inline'
 
   }
   else if (str === "BusOptions") {

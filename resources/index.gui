@@ -99,35 +99,49 @@
 			<set href="combo-button-stroke" attributeName="display" to="inline" />
 		</use>
 	</svg>
-
+	
 	<svg id= "settings" display="none" >
-	<use id="decrease" href="#square-button-icon" fill="fb-black" height="86" width="50%" y='150'>
+	<rect fill="white" width="44%" height="68" x="9" y='79' />
+
+	<rect fill="white" width="44%" height="68" x="9" y='159' /> 
+	<use id="decrease" href="#square-button-icon" fill="fb-red" height="86" width="50%" y='150'>
 		<set href="#text" attributeName="text-buffer" to="" />
 		<!-- <set href="#stroke" attributeName="display" to="none" />
 		<set href="#text" attributeName="display" to="none" /> -->
 		<set href="#image" attributeName="href" to="Down.png" />
 	</use>
 
-	<use id="increase" href="#square-button-icon" fill="fb-black" width="50%" height="86" y='70'>
+	<use id="increase" href="#square-button-icon" fill="fb-green" width="50%" height="86" y='70'>
 		<set href="#text" attributeName="text-buffer" to="" />
 		<!-- <set href="#stroke" attributeName="display" to="none" />
 		<set href="#text" attributeName="display" to="none" /> -->
 		<!-- <set href="#text" attributeName="text-buffer" to="Submit"/> -->
 		<set href="#image" attributeName="href" to="Up.png" />
 	</use>
-	<rect id="radiusnum" x="150" y="75" width="49%" height="52%" fill="white"/> 
-	
-	<text id="radiustext" x="225" y="160" font-family="System-Regular" fill="black"
-        font-size="30" font-weight="bold"
-        text-anchor="middle">HELLO</text>
 
-	<use href="#mixed-text-center-top" height="100%" y="5%" fill="fb-black" font-size="10">
-		<set href="#text" attributeName="font-size" to="10"/> 
+	<rect fill="black" width="48%" height="17%" x="153" y='124' />
+	<rect id="radiusnum" x="156" y="127" width="46%" height="15%" fill="white"/> 
+	
+	<text id="radiustext" x="225" y="160" font-family="Fabrikat-Bold" fill="black"
+        font-size="30" font-weight="bold"
+        text-anchor="middle">0.1 Miles</text>
+
+	<!-- <use href="#mixed-text-center-top" height="100%" y="5%" font-family="System-Bold" fill="fb-black" font-size="10">
+		
+		<set href="#text" attributeName="font-size" to="10"/>
+		<set href="#text" attributeName="font-family" to="Colfax-Medium"/>
 		<set href="#header/text" attributeName="text-length" to="100" />
 		<set href="#header/text" attributeName="text-buffer" to="Search Radius"/>
-	</use>
+	</use> -->
+	<text x="150" y="20%" font-family="Fabrikat-Bold" fill="black"
+        font-size="42" font-weight="bold"
+        text-anchor="middle">Bus Stop Radius</text>
 
-	<rect id="radiusnum" fill="fb-green" width="36%" height="40" y="250" x="100"/> 
+	<rect id="radiusnum" fill="fb-green" width="36%" height="40" y="250" x="100"/>
+
+	<!-- <rect fill="white" width="44%" height="68" x="9" y='79' />
+
+	<rect fill="white" height="50" width="45%" y='150' />  -->
 	<use id="submit" href="#square-button" fill="fb-green" width="40%" height="60" y="240" x="93"  >
 		<!-- <set href="#square-button" height="10%" y="$-10" x="150" width="25%" fill="fb-green" >  -->
 		<set href="#text" attributeName="text-buffer" to="Submit"/>

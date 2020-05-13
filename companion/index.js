@@ -11,6 +11,7 @@ let state = 0;
 let prevState = [init, BusStopssend, DetermineDirsend, FindStopssend, displayDestsend, BusDistancessend];
 let prevStateArgs = [''];
 let SelectedStop = '';
+let searchRadius = 100;
 
 // function initsend (){
 //   state=0;
@@ -97,6 +98,13 @@ messaging.peerSocket.onmessage = async evt => {
   if (str === "Init") {
 
     init();
+  }
+  else if(str === "Radius"){
+    let val =  parseFloat(JSON.stringify(evt.data.data));
+    console.log(val);
+    searchRadius = 1000 * val;
+    init();
+    
   }
   else if (str === "previousstate") {
 
@@ -424,9 +432,11 @@ function BusStops() {
   let long = -73.812;
   let latspan = .01;
   let longspan = .05;
+  let radius = 1000;
   const proxy = 'https://cors-anywhere.herokuapp.com/';
   const key = 'c1c48a75-1692-4672-baec-5ae98bc790ec'
-  const URL = `https://bustime.mta.info/api/where/stops-for-location.json?lat=${lat}&lon=${long}&latSpan=${latspan}&lonSpan=${longspan}&key=${key}`;
+  // const URL = `https://bustime.mta.info/api/where/stops-for-location.json?lat=${lat}&lon=${long}&latSpan=${latspan}&lonSpan=${longspan}&key=${key}`;
+  const URL = `https://bustime.mta.info/api/where/stops-for-location.json?lat=${lat}&lon=${long}&radius=${radius}&key=${key}`;
   state = 1;
 
   //fetch("https://Google.com")
