@@ -105,7 +105,7 @@ function deleteCachesend(arr){
   // prevStateArgs.push([arr]);
   state = 2;  
   sendVal ({command: "deleteCache", arr: arr});
-}
+} 
 
 
 // Message socket opens
