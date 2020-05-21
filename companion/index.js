@@ -40,7 +40,7 @@ function init() {
 }
 
 
-function BusStopssend(arr) { //Displays Bus Options on screen in VT list
+function BusStopssend(arr) { // listBussend
   // prevState.push(BusStopssend);
   // prevStateArgs.push([args]);
   state = 1;
@@ -55,7 +55,7 @@ function BusStopssend(arr) { //Displays Bus Options on screen in VT list
 //   sendVal({ command: "Directions", arr: arr });
 // }
 
-function FindStopssend(arr) { // Displays Bus Stop options on screen in VT list
+function FindStopssend(arr) { // listStopsend
   state = 2;
   // prevState.push(FindStopssend);
   // prevStateArgs.push([arr]);
@@ -67,7 +67,7 @@ function FindStopssend(arr) { // Displays Bus Stop options on screen in VT list
   });
 }
 
-function displayDestsend(arr) {
+function displayDestsend(arr) { //displayDestinationsend
   state = 3;
   // prevState.push(displayDestsend);
   // prevStateArgs.push([arr]);
@@ -76,7 +76,7 @@ function displayDestsend(arr) {
   sendVal({ command: "StopDestination", arr: [arr] });
 }
 
-function BusDistancessend(arr) {
+function BusDistancessend(arr) { //listDistancessend
   state = 4;
   // prevState.push(BusDistancessend);
   // prevStateArgs.push([arr]);
@@ -85,7 +85,7 @@ function BusDistancessend(arr) {
 }
 
 
-function ETAsend(arr){
+function ETAsend(arr){ // displayETAsend
   state = 5; 
   // prevState.push(ETAsend);
   // prevStateArgs.push([arr]);
