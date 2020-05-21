@@ -9,10 +9,10 @@ let myPopup = document.getElementById("my-popup");
 let linetwo = document.getElementById("linetwo");
 let list = document.getElementById("list");
 let choices = document.getElementById("choices");
-let previousstate = document.getElementById("btn-br");
+let previous = document.getElementById("btn-br");
 let reset = document.getElementById("btn-tr");
 let VTList = document.getElementById("my-list");
-let btnLeft = document.getElementById("btnLeft");
+//let btnLeft = document.getElementById("btnLeft");
 let btnRight = document.getElementById("btnRight");
 let displayDestBlock = document.getElementById("mixedblock");
 let mixedtext = document.getElementById('mixedtext');
@@ -25,7 +25,19 @@ let increase = document.getElementById('increase');
 let decrease = document.getElementById('decrease');
 let radtext = document.getElementById('radiustext');
 let submitRadius = document.getElementById('submit');
-
+let folder = document.getElementById('btn-bl');
+let save = document.getElementById('save');
+let confirmDelete = document.getElementById('confirmDelete');
+let delet = document.getElementById('delete');
+let checkedList = document.getElementById('my-deletes');
+let checkedBoxes = checkedList.getElementsByClassName('tile-list-item2');
+let confirmBack = document.getElementById('confirmBackground');
+let verticalSep = document.getElementById('vertical-seperator');
+let taskbar = document.getElementById('top-rect');
+let headertext = displayDestBlock.getElementById("header");
+let bodytext = displayDestBlock.getElementById("copy");
+let error = document.getElementById('error');
+let NoStops = document.getElementById('NoStops');
 
 let displayRoute = true
 let state = '';
@@ -59,23 +71,37 @@ function directionbuttons(arr) {
 
 function mylist(str, array) {
   let NUM_ELEMS;
-  if (array.length < 11) {
+  if (array.length < 21) {
     NUM_ELEMS = array.length;
   }
   else {
-    NUM_ELEMS = 10;
+    NUM_ELEMS = 20;
   }
   let i = 0;
   VTList.delegate = {
     getTileInfo: function (index) {
+      let type = "my-pool";
+      if (str === "deleteSelections"){
+        type = 'my-deletes'
+    }
       return {
-        type: "my-pool",
+        type: type,
         value: state === "one" ? "one" : state === "two" ? "two" : "three",
         index: index
       };
     },
     configureTile: function (tile, info) {
       if (info.type == "my-pool") {
+        tile.getElementById("text").text = `${array[i++]}`;
+        let touch = tile.getElementById("touch-me");
+        touch.onclick = evt => {
+          console.log(tile.getElementById("text").text)
+          sendVal({ command: str, BusNum: tile.getElementById("text").text })
+          console.log(`touched: ${info.index}`);
+          VTList.style.display = "none";
+        };
+      }
+      if (info.type == "my-deletes") {
         tile.getElementById("text").text = `${array[i++]}`;
         let touch = tile.getElementById("touch-me");
         touch.onclick = evt => {
@@ -135,6 +161,11 @@ settingsbutton.onclick = evt => {
   firstbutton.style.display = "none";
   settings.style.display = 'inline';
   combo.style.display = "none";
+  taskbar.style.display= 'none';
+  reset.style.display = 'none';
+  previous.style.display = 'none';
+  folder.style.display ='none'
+  verticalSep.style.display='none'
   let count = radtext.text;
   count = count.replace(' Miles', ''); 
   count = parseFloat(count);
@@ -169,7 +200,36 @@ submitRadius.onclick = () => {
 
 }
 
+folder.onclick = () => {
+  sendVal({ command: "loadCache"});
+}
 
+save.onclick = () => {
+  sendVal({command: "save"})
+}
+
+delet.onclick = () => {
+  sendVal({command: "deleteCache"});
+}
+
+confirmDelete.onclick = () => {
+  console.log("DELETE");
+  let arr= [];
+  checkedBoxes.forEach((element, index) => {
+    console.log(element.value);
+    if (element.value){
+    arr.push(element.parent.text);
+    
+  } // initial state
+
+  // element.firstChild.onclick = (evt) => {
+    //   tileState[index] = !tileState[index];
+    //   console.log(`item ${index} :: ${tileState[index] ? "checked" : "unchecked"}`)
+    // };
+  })
+  console.log(arr);
+  sendVal({command: "confirm", arr: arr})
+}
 
 reset.onclick = evt => {
 
@@ -178,7 +238,9 @@ reset.onclick = evt => {
 
 mybutton.onclick = async function (evt) {
 
+  settingsbutton.style.display ='none';
   firstbutton.style.display = "none";
+  
   let data = {
     command: 'BusStops',
 
@@ -189,7 +251,7 @@ mybutton.onclick = async function (evt) {
 
 }
 
-previousstate.onclick = evt => {
+previous.onclick = evt => {
   console.log("previous")
   sendVal({ command: "previousstate" });
 };
@@ -199,25 +261,40 @@ messaging.peerSocket.onmessage = evt => {
   let str = JSON.stringify(evt.data.command);
   str = str.slice(1, -1);
   mixedtext.style.display ="none";
+  NoStops.style.display = 'none'
   VTList.style.display = "none";
   myPopup.style.display = "none";
   list.style.display = "none";
   settings.style.display = "none";
+  delet.style.display = 'none';
+  confirmDelete.style.display = 'none'
+  previous.style.display ='inline';
+  reset.style.display ='inline';
+  verticalSep.style.display='inline';
 
 
   if (str === "Init") {
-
+    folder.style.display ='inline';
+    settingsbutton.style.display ='inline';
+    taskbar.style.display = 'inline';
     firstbutton.style.display = "inline";
     VTList.style.display = "none";
     combo.style.display = 'inline'
+    save.style.display = 'none';
+    
+    
 
   }
   else if (str === "BusOptions") {
     myPopup.style.display = "none";
     choices.style.display = "inline";
     VTList.style.display = "inline";
+    folder.style.display = 'inline';
 
     let arr = evt.data.arr;
+    if(arr.length === 0){
+      NoStops.style.display = 'inline';
+    }
     mylist("BusSelection", arr);
   }
   else if (str === "Directions") {
@@ -229,6 +306,8 @@ messaging.peerSocket.onmessage = evt => {
   else if (str === "selectedstops") {
     choices.style.display = "inline";
     VTList.style.display = "inline";
+    folder.style.display ='inline';
+    save.style.display = 'none';
     let arr = evt.data.arr;
     console.log("Selected Stops");
     mylist("SelectedStop", arr);
@@ -250,9 +329,36 @@ messaging.peerSocket.onmessage = evt => {
     mixedtextcopy.text = `Bus Distance: ${evt.data.arr[1]}`;
     mixedtextheader.text = `ETA: ${evt.data.arr[0]}`;
   }
+
+  else if (str==="loadStorage"){
+    firstbutton.style.display = 'none';
+    choices.style.display = "inline";
+    VTList.style.display = "inline";
+    settingsbutton.style.display ='none';
+    folder.style.display = 'none';
+    delet.style.display = 'inline';
+    save.style.display = 'none'
+    let farr = evt.data.arr;
+    mylist("savedStopSelect", farr);
+  }
+
+  else if (str === "deleteCache"){
+    confirmDelete.style.display ='inline';
+    firstbutton.style.display = 'none';
+    choices.style.display = "inline";
+    VTList.style.display = "inline";
+    settingsbutton.style.display ='none';
+    folder.style.display = 'none';
+    let farr = evt.data.arr;
+    mylist("deleteSelections", farr);
+  }   
+  
+
 };
 
 function showDistances (arr) {
+  save.style.display = "inline"
+  folder.style.display = 'none';
   choices.style.display = "inline";
   VTList.style.display = "inline";
   let farr = arr;
@@ -260,20 +366,43 @@ function showDistances (arr) {
 }
 
 function DisplayDestination(dest) {
+  
+  folder.style.display = 'none';
+  save.style.display = 'inline';
+  // verticalSep.style.display='none';
+
+  
+  //save.style.display = 'none';
+  console.log(`>${dest}<`);
+  // let headertext = displayDestBlock.getElementById("header");
+  // let bodytext = displayDestBlock.getElementById("copy");
   myPopup.style.display="inline";
-  btnLeft.style.display = "inline";
-  btnRight.style.display = "inline";
-  let bodytext = displayDestBlock.getElementById("copy");
-  bodytext.text = dest;
-  btnRight.text = "Confirm";
-  btnLeft.text = "Return";
-  btnLeft.onclick = () => {
-    sendVal({ command: "previousstate" });
-  }
+  // btnLeft.style.display = "inline";
+  //btnRight.style.display ="none";
+  // btnLeft.text = "Return";
+  btnRight.text ="Confirm"
+  // btnLeft.onclick = () => {
+  //   sendVal({ command: "previousstate" });
+  // }
+
   btnRight.onclick = () => {
     sendVal({command: "bustimelist"});
     console.log("send");
   }
+    if(dest == ''){
+      bodytext.text = '';
+      headertext.text = "No Buses on Route";
+      confirmBack.style.display = 'none';
+      btnRight.style.display ="none";
+      
+  }
+  else{
+  headertext.text="Confirm Route Destination"
+  btnRight.style.display = "inline";
+  
+  confirmBack.style.display = 'inline'
+  bodytext.text = dest;
+}
 }
 
 // let showtimes = (arr) => {
@@ -291,10 +420,18 @@ function DisplayDestination(dest) {
 // Message socket opens
 messaging.peerSocket.onopen = () => {
   console.log("App Socket Open");
+  
+  error.style.display = 'none';
 };
 
 // Message socket closes
 messaging.peerSocket.onclose = () => {
   console.log("App Socket Closed");
+  if(!messaging.peerSocket.wasClean){
+    
+    error.style.display = 'inline'
+  }
+
+  
 };
 

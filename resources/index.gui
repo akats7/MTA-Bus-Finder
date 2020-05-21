@@ -1,16 +1,49 @@
 <svg>
-	<rect id="background" />
+	<!-- <rect id="background" /> -->
+	<gradientRect id='background' x="0" y="0" width="100%" height="100%"
+    gradient-type="bilinear"
+    gradient-x1="30" gradient-y1="30"
+    gradient-x2="100%-70" gradient-y2="100%-40"
+    gradient-color1="aqua"
+    gradient-color2="lavender"
+    gradient-color3="lightskyblue"
+    gradient-color4="powderblue" />
+	<symbol id="my-tile-item" href='#tile-list-item' focusable="false"
+            pointer-events="none" system-events="all" display="none">
+      <!-- <textarea id="text" x="5" y="5" 
+      font-family="System-Regular" fill="black" font-size="22" text-length="100"
+      display-align="center"  rows="3" width="80%"      /> -->
+      <rect id="tile-divider-bottom" class="tile-divider-bottom" width='78%'/>
+      <rect id="touch-me" pointer-events="all" x="0" y="0" width="100%"
+            height="100%-2" opacity="00" />
+		<textarea id="text" x="5" y="5" 
+      font-family="Colfax-Regular" fill="black" font-size="19" text-length="100"
+      display-align="center"  rows="3" width="65%"      />
+    </symbol>
 	<svg id="firstbutton">
-		<circle fill="white" id="mybutton" />
+		<circle fill='black' id='buttonborder'/>
+		<circle fill="cornflowerblue" id='buttonbase'/>
 		<svg id="mybuttontext">
-			<text id="lineone">
+			<text id="lineone" x='90'>
 				Find Bus
 			</text>
-			<text id="linetwo">
+			<text id="linetwo" x='90'>
 				Near Me
 			</text>
+		<circle fill="white" id="mybutton" opacity='0'/>
+			<!-- <textarea id="text" x="-100" 
+				font-family="System-Regular" fill="black" font-size="22" text-length="100" width='5%'
+				display-align="center"  rows="3" width="80%" text-buffer="Find Bus Near Me"      /> -->
 		</svg>
 	</svg>
+	<use id="NoStops" href="#mixed-text-center-mid" width='79%' class="dialog-mixed-text" fill="fb-white" display='none'>
+			<set href="#header/text" attributeName="font-family" to="Colfax-Light" />
+			<set href="#header/text" attributeName="text-length" to="100" />
+
+			<set href="#top-padding" attributeName="display" to="none" />
+			<set href="#header/text" attributeName="text-buffer" to="No Bus Stop in Range" />
+			<set href="#header/text" attributeName="fill" to="cornflowerblue" />
+	</use>
 	<!-- <rect id="textblock" fill="white" width="100%" height="50%" /> -->
 	<svg id="list">
 		<svg id="list1">
@@ -31,9 +64,10 @@
 	</svg>
 	<svg id="choices">
 		<use id="my-list" href="#tile-list">
+			
 			<var id="virtual" value="1" />
 			<var id="separator-height-bottom" value="2" />
-			<use id="my-pool" href="#tile-list-pool">
+			<use id="my-pool" href="#tile-list-pool">	
 				<use id="my-pool[0]" href="#my-tile-item" class="tile-list-item" />
 				<use id="my-pool[1]" href="#my-tile-item" class="tile-list-item" />
 				<use id="my-pool[2]" href="#my-tile-item" class="tile-list-item" />
@@ -44,51 +78,115 @@
 				<use id="my-pool[7]" href="#my-tile-item" class="tile-list-item" />
 				<use id="my-pool[8]" href="#my-tile-item" class="tile-list-item" />
 				<use id="my-pool[9]" href="#my-tile-item" class="tile-list-item" />
+				<use id="my-pool[10]" href="#my-tile-item" class="tile-list-item" />
+				<use id="my-pool[11]" href="#my-tile-item" class="tile-list-item" />
+				<use id="my-pool[12]" href="#my-tile-item" class="tile-list-item" />
+				<use id="my-pool[13]" href="#my-tile-item" class="tile-list-item" />
+				<use id="my-pool[14]" href="#my-tile-item" class="tile-list-item" />
 			</use>
+			<use id="my-deletes" href="#tile-list-pool">	
+				<use id="my-pool[0]" href="#my-tile-item"  >
+				<use id="checkbox" href="#checkbox-tile" class="tile-list-item2" value="0"/>
+				</use>
+				<use id="my-pool[1]" href="#my-tile-item" >
+				<use id="checkbox" href="#checkbox-tile" class="tile-list-item2" value="0"/>
+				</use>
+				<use id="my-pool[2]" href="#my-tile-item" >
+				<use id="checkbox" href="#checkbox-tile" class="tile-list-item2" value="0"/>
+				</use>
+				<use id="my-pool[3]" href="#my-tile-item" >
+				<use id="checkbox" href="#checkbox-tile" class="tile-list-item2" value="0"/>
+				</use>
+				<use id="my-pool[4]" href="#my-tile-item" >
+				<use id="checkbox" href="#checkbox-tile" class="tile-list-item2" value="0"/>
+				</use>
+				<use id="my-pool[5]" href="#my-tile-item" >
+				<use id="checkbox" href="#checkbox-tile" class="tile-list-item2" value="0"/>
+				</use>
+				<use id="my-pool[6]" href="#my-tile-item"  >
+				<use id="checkbox" href="#checkbox-tile" class="tile-list-item2" value="0"/>
+				</use>
+				<use id="my-pool[7]" href="#my-tile-item" >
+				<use id="checkbox" href="#checkbox-tile" class="tile-list-item2" value="0"/>
+				</use>
+				<use id="my-pool[8]" href="#my-tile-item" >
+				<use id="checkbox" href="#checkbox-tile" class="tile-list-item2" value="0"/>
+				</use>
+				<use id="my-pool[9]" href="#my-tile-item" >
+				<use id="checkbox" href="#checkbox-tile" class="tile-list-item2" value="0"/>
+				</use>
+				<use id="my-pool[10]" href="#my-tile-item" >
+				<use id="checkbox" href="#checkbox-tile" class="tile-list-item2" value="0"/>
+				</use>
+				<use id="my-pool[11]" href="#my-tile-item" >
+				<use id="checkbox" href="#checkbox-tile" class="tile-list-item2" value="0"/>
+				</use>
+				<use id="my-pool[12]" href="#my-tile-item" >
+				<use id="checkbox" href="#checkbox-tile" class="tile-list-item2" value="0"/>
+				</use>
+				<use id="my-pool[13]" href="#my-tile-item" >
+				<use id="checkbox" href="#checkbox-tile" class="tile-list-item2" value="0"/>
+				</use>
+				<use id="my-pool[14]" href="#my-tile-item" >
+				<use id="checkbox" href="#checkbox-tile" class="tile-list-item2" value="0"/>
+				</use>
+			</use>	
 		</use>
 	</svg>
 	<svg id="my-popup" display="none">
 		<!-- Black background -->
-		<rect class="full-size" fill="#00FFFF" />
+		<!-- <rect class="full-size" fill="#00FFFF" /> -->
 		<!-- Title and text -->
-		<use id="mixedblock" href="#mixed-text-center-mid" class="dialog-mixed-text" fill="fb-white">
+		<use id="mixedblock" href="#mixed-text-center-mid" width='79%' class="dialog-mixed-text" fill="fb-white">
+			<set href="#header/text" attributeName="font-family" to="Colfax-Light" />
+			<set href="#header/text" attributeName="text-length" to="100" />
+			<set href="#copy/text" attributeName="font-family" to="Colfax-Regular" />
 			<set href="#top-padding" attributeName="display" to="none" />
 			<set href="#header/text" attributeName="text-buffer" to="Confirm Route Destination" />
-			<set href="#header/text" attributeName="fill" to="fb-magenta" />
+			<set href="#header/text" attributeName="fill" to="cornflowerblue" />
 			<set href="#copy/text" attributeName="text-buffer" to="Please confirm route destination." />
 			<set href="#copy/text" attributeName="text-length" to="100" />
 			<set href="#bottom-padding" attributeName="display" to="none" />
 		</use>
 		<!-- Left button -->
-		<use id="btnLeft" class="dialog-half-button-left" href="#square-button-neutral">
+		<!-- <use id="btnLeft" class="dialog-half-button-left" href="#square-button-neutral" >
 			<set id="btnLeftText" href="#text" attributeName="text-buffer" to="Later" />
 			<set href="#text" attributeName="text-anchor" to="middle" />
 			<set href="#text" attributeName="text-length" to="100" />
-		</use>
+			<set href='#text' attributeName='font-family' to='System-Bold'/>
+		</use> -->
 		<!-- Right button -->
-		<use id="btnRight" class="dialog-half-button-right" href="#square-button-negative">
-			<set id="btnRighttext" href="#text" attributeName="text-buffer" to="Start" />
+		<rect id='confirmBackground' x='41' fill='green' opacity='.2' width='46%' y='233' height='21%'/>
+		<use id="btnRight" class="dialog-half-button-right" href="#square-button-icon" x='35' fill='fb-green'>
+			<set id="btnRighttext" href="#text" attributeName="text-buffer" to="Confirm" />
 			<set href="#text" attributeName="text-anchor" to="middle" />
 			<set href="#text" attributeName="text-length" to="100" />
+			<set href='#text' attributeName='font-family' to='System-Bold'/>
+			<set href="#text" attributeName="fill" to="black" />
 		</use>
 	</svg>
 	<svg >
-		<use id="mixedtext" href="#mixed-text-center-top" height="100%" y="20%" fill="fb-yellow">
+		<use id="mixedtext" href="#mixed-text-center-top" x='-6' height="100%" y="20%" width='78%' fill="fb-yellow">
 			<set href="#header/text" attributeName="text-length" to="100" />
 			<set href="#header/text" attributeName="text-buffer" to="Header Text"/>
+			
 			<set href="#copy/text" attributeName="text-buffer" to="This is the center and middle-aligned body text."/>
+			<set href="#header/text" attributeName="font-size" to="10"/>
 			</use>
+
+			
 	</svg>
 
 	
 		
 	<svg id="combobuttons">
 		<use id="btn-tl" href="#combo-button-upper-left" fill="fb-cyan">
-			<set href="combo-button-icon" attributeName="href" to="Settings_app_icon_clear.png"/>
-			<set href="combo-button-icon-press" attributeName="href" to="Settings-icon.png"/>
+			<set href="combo-button-icon" attributeName="href" to="location.png"/>
+			<set href="combo-button-icon-press" attributeName="href" to="location.png"/>
 			<!-- <set href="combo-button-stroke" attributeName="display" to="inline"/> -->
 	</use>
-		<use id="btn-br" href="#combo-button-lower-right" fill="fb-peach">
+	
+		<!-- <use id="btn-br" href="#combo-button-lower-right" fill="fb-peach">
 			<set href="combo-button-icon" attributeName="href" to="play.png" />
 			<set href="combo-button-icon-press" attributeName="href" to="play_press.png" />
 			<set href="combo-button-stroke" attributeName="display" to="inline" />
@@ -97,21 +195,79 @@
 			<set href="combo-button-icon" attributeName="href" to="list.png" />
 			<set href="combo-button-icon-press" attributeName="href" to="list_press.png" />
 			<set href="combo-button-stroke" attributeName="display" to="inline" />
+		</use> -->
+		
+	</svg>
+
+	<svg id="Cache">
+		<svg id='top-rect'>
+		<rect fill="white" opacity='1' height="100%" width="23%" y='0' x="234" display='inline' />
+		<rect fill="blue" opacity='.25' height="33%-3" width="23%" y='5' x="236" display='inline' />
+		<rect fill="red" opacity='.25' height="33%-4" width="23%" y='104' x="236" display='inline' />
+		<rect fill="orange" opacity='.25' height="33%-4" width="23%" y='203' x="236" display='inline' />
+	</svg>
+		<!-- <rect id='top-rect' fill="white" opacity='.7' height="100%" width="23%" y='0' x="234" display='inline' />
+		<rect id='top-rect' fill="white" opacity='.7' height="100%" width="23%" y='0' x="234" display='inline' /> -->
+		<use id="btn-bl" href="#square-button-icon" fill="black" height="35%" width="23%+4"  x="231" y='99' display='inline'>
+			<set href="#text" attributeName="text-buffer" to="" />
+			<!-- <set href="#stroke" attributeName="display" to="none" />
+			<set href="#text" attributeName="display" to="none" /> -->
+			<set href="#image" attributeName="href" to="folder.png" />
+		</use>
+		<use id="delete" href="#square-button-icon" fill="fb-red" height="35%" width="23%+4"  x="231" y='99' display='none'>
+			<set href="#text" attributeName="text-buffer" to="" />
+			<!-- <set href="#stroke" attributeName="display" to="none" />
+			<set href="#text" attributeName="display" to="none" /> -->
+			<set href="#image" attributeName="href" to="delete_black.png" />
+		</use>
+
+		<use id="confirmDelete" href="#square-button-icon" fill="fb-red" height="35%" width="23%+4"  x="231" y='99'  display='none'>
+			<set href="#text" attributeName="text-buffer" to="" />
+			<!-- <set href="#stroke" attributeName="display" to="none" />
+			<set href="#text" attributeName="display" to="none" /> -->
+			<set href="#image" attributeName="href" to="delete.png" />
 		</use>
 	</svg>
 	
-	<svg id= "settings" display="none" >
-	<rect fill="white" width="44%" height="68" x="9" y='79' />
+	<svg id="resetreturn">
+		<use id="btn-br" href="#square-button-icon" fill="black" height="35%" width="23%+4"  x="231" y='198' display='inline'>
+			<set href="#text" attributeName="text-buffer" to="" />
+			<!-- <set href="#stroke" attributeName="display" to="none" />
+			<set href="#text" attributeName="display" to="none" /> -->
+			<set href="#image" attributeName="href" to="return.png" />
+		</use>
 
-	<rect fill="white" width="44%" height="68" x="9" y='159' /> 
-	<use id="decrease" href="#square-button-icon" fill="fb-red" height="86" width="50%" y='150'>
+		<use id="btn-tr" href="#square-button-icon" fill="black" height='35%' width="23%+4"  x="231" y='0' display='inline'>
+			<set href="#text" attributeName="text-buffer" to="" />
+			<!-- <set href="#stroke" attributeName="display" to="none" />
+			<set href="#text" attributeName="display" to="none" /> -->
+			<set href="#image" attributeName="href" to="restart.png" />
+		</use>
+	</svg>
+
+	<svg id='sav'>
+		<use id="save" href="#square-button-icon" fill="fb-black" height="35%" width="23%+4"  x="231" y='99' display='none'>
+			<set href="#text" attributeName="text-buffer" to="" />
+			<!-- <set href="#stroke" attributeName="display" to="none" />
+			<set href="#text" attributeName="display" to="none" /> -->
+			<set href="#image" attributeName="href" to="save.png" />
+		</use>
+
+	</svg>
+	<rect id='vertical-seperator' y='0' height='100%' x='232' width='1%'/>
+
+	<svg id= "settings" display="none" >
+	<rect fill="white" opacity='1' width="44%" height="68" x="9" y='79' />
+
+	<rect fill="white" opacity='1' width="44%" height="68" x="9" y='159' /> 
+	<use id="decrease" href="#square-button-icon" fill="deepskyblue" height="86" width="50%" y='150'>
 		<set href="#text" attributeName="text-buffer" to="" />
 		<!-- <set href="#stroke" attributeName="display" to="none" />
 		<set href="#text" attributeName="display" to="none" /> -->
 		<set href="#image" attributeName="href" to="Down.png" />
 	</use>
 
-	<use id="increase" href="#square-button-icon" fill="fb-green" width="50%" height="86" y='70'>
+	<use id="increase" href="#square-button-icon" fill="deepskyblue" width="50%" height="86" y='70'>
 		<set href="#text" attributeName="text-buffer" to="" />
 		<!-- <set href="#stroke" attributeName="display" to="none" />
 		<set href="#text" attributeName="display" to="none" /> -->
@@ -124,7 +280,7 @@
 	
 	<text id="radiustext" x="225" y="160" font-family="Fabrikat-Bold" fill="black"
         font-size="30" font-weight="bold"
-        text-anchor="middle">0.1 Miles</text>
+        text-anchor="middle">0.5 Miles</text>
 
 	<!-- <use href="#mixed-text-center-top" height="100%" y="5%" font-family="System-Bold" fill="fb-black" font-size="10">
 		
@@ -137,14 +293,27 @@
         font-size="42" font-weight="bold"
         text-anchor="middle">Bus Stop Radius</text>
 
-	<rect id="radiusnum" fill="fb-green" width="36%" height="40" y="250" x="100"/>
+	<rect id="radiusnum" fill="fb-green" fill='green' opacity='.3' width="37%" height="16%" y="245" x="98"/>
 
 	<!-- <rect fill="white" width="44%" height="68" x="9" y='79' />
 
 	<rect fill="white" height="50" width="45%" y='150' />  -->
 	<use id="submit" href="#square-button" fill="fb-green" width="40%" height="60" y="240" x="93"  >
 		<!-- <set href="#square-button" height="10%" y="$-10" x="150" width="25%" fill="fb-green" >  -->
+		<set href='#text' attributeName='font-family' to='System-Bold'  />
 		<set href="#text" attributeName="text-buffer" to="Submit"/>
+		<set href='#text' attributeName='fill' to='black' />
 	</use>
 	</svg>
+
+<svg id='error'>
+<rect id ='background' fill='black' /> 
+<textarea  font-family="Fabrikat-Bold" fill="white"
+        font-size="34" font-weight="bold"
+        text-anchor="middle">Please reconnect FitBit to companion, companion is required to retrieve Real-Time Bus info. </textarea>
 </svg>
+</svg>
+
+
+
+

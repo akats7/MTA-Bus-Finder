@@ -1,8 +1,8 @@
 .defaultText {
   font-size: 32;
   font-family: System-Regular;
-  font-weight: regular;
-  text-length: 32;
+  font-weight: bold;
+  
 }
 
 #background {
@@ -11,8 +11,18 @@
   fill: #00FFFF;
 }
 
+
+#buttonborder{
+  cx: 42%;
+  cy: 50%;
+  r:26%;
+  height:25%;
+  fill:black;
+  pointer-events:visible;
+}
+
 #mybutton {
-  cx: 50%;
+  cx: 42%;
   cy: 50%;
   r:25%;
   height:25%;
@@ -21,12 +31,26 @@
   
 }
 
-#mybuttontext {
+
+
+#mybuttontext text{
   x: 41%;
-  font-family: Colfax-Light;
+  font-family: "Tungsten-Medium";
   
-  font-size:15;
-  fill:red;
+  font-size: 30;
+  fill: white;
+  
+}
+#buttonbase{
+  cx: 42%;
+  cy: 50%;
+  r:25%;
+  height:25%;
+  fill:black;
+  pointer-events:visible;
+}
+#mixedtext text{
+  font-size: 145;
 }
 
 /* #mixedblock textarea text{
@@ -38,9 +62,7 @@ body {
   font-size: ;
 } */
 
-#firstbutton{
 
-}
 
 #lineone{
   y: 49%;
@@ -79,23 +101,35 @@ y:78%;
 
 .tile-list-item {
   height: 80;
+  /* width: 80%; */
+  fill: red;
+  text-length: 100;
 }
+
+.tile-list-item2 {
+  height: 80;
+  width: 80%;
+  fill: green;
+  text-length: 100;
+}
+
+
+
 
 .tile-list-item text {
   font-family: System-Regular;
   fill: "white";
-  width: 100%;
-  text-length: 32;
-  
+  font-size: "12";
 }
 
 .tile-divider-bottom {
   x: 0;
   y: 100%-2;
-  width: 100%;
+  width: 98%;
   height: 2;
   fill: #A0A0A0;
 }
+
 
 
 #choices{
