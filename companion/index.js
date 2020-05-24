@@ -1,5 +1,7 @@
 import * as messaging from "messaging";
 import { localStorage } from "local-storage";
+import { geolocation } from "geolocation";
+
 
 let BustoStop = new Map();
 let StopNametoCode = new Map();
@@ -12,6 +14,8 @@ let SelectedStop = '';
 let SelectedStoptext = '';
 let cachedRequest = '';
 let searchRadius = 500;
+let latitude = 40.585018;
+let longitude = -73.811928;;
 
 Number.prototype.mod = function(x) {
   return ((this % x) + x) % x;
@@ -94,6 +98,9 @@ function runInit() {
   LinetoFull.clear();
   SelectedBus = '';
   sendVal('Init')
+  geolocation.getCurrentPosition(locationSuccess, locationError, {
+    timeout: 60 * 1000
+  });
 }
 
 
@@ -233,8 +240,8 @@ function runFindRelevantStops(evt) {
 }
 
 function runFindLocalStops() {
-  let lat = 40.585018;
-  let long = -73.811928;
+  let lat = latitude;
+  let long = longitude;
   const key = 'c1c48a75-1692-4672-baec-5ae98bc790ec'
   const URL = `https://bustime.mta.info/api/where/stops-for-location.json?lat=${lat}&lon=${long}&radius=${searchRadius}&key=${key}`;
 
@@ -302,6 +309,19 @@ function runListOfTimes() {
   sendVal('busDistances', timeslist);
 }
 
+function locationSuccess(position) {
+  console.log(
+    "Latitude: " + position.coords.latitude,
+    "Longitude: " + position.coords.longitude
+  );
+  latitude = position.coords.latitude;
+  longitude = position.coords.longitude;
+}
+
+function locationError(error) {
+  console.log("Error: " + error.code, "Message: " + error.message);
+}
+
 function runPreviousState() {
 
   if (prevState[prevState.length - 1] !== 'Init') {
@@ -318,7 +338,7 @@ function runPreviousState() {
 // Message socket opens
 messaging.peerSocket.onopen = () => {
   console.log("Companion Socket Open");
-  sendVal({ command: "Init" });
+  runInit();
 
 };
 
