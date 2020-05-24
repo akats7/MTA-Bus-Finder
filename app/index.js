@@ -69,8 +69,8 @@ let appHandler = {
   BusOptions(data) {
     myPopup.style.display = "none";
     choices.style.display = "inline";
-    VTList.style.display = "inline";
-    folder.style.display = 'inline';
+    VTList.style.display = "inline"; 
+    folder.style.display = 'inline'; 
     let arr = data;
     if (arr.length === 0) {
       NoStops.style.display = 'inline';
