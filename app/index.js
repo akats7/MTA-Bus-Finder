@@ -2,12 +2,8 @@ import document from "document";
 import * as messaging from "messaging";
 
 let mybutton = document.getElementById("mybutton");
-let background = document.getElementById("background");
 let firstbutton = document.getElementById("firstbutton");
-let lineone = document.getElementById("lineone");
 let myPopup = document.getElementById("my-popup");
-let linetwo = document.getElementById("linetwo");
-let list = document.getElementById("list");
 let choices = document.getElementById("choices");
 let previous = document.getElementById("btn-br");
 let reset = document.getElementById("btn-tr");
